@@ -9,6 +9,15 @@ class Home extends React.Component {
     mywishes : [{_id : 1, wish:"loading"}]
   }
 
+  componentDidMount(){
+    fetch('/data').then(res => res.json())
+    .then(res2 => {
+       // console.log(res2)
+      this.setState({mywishes : res2})
+    });
+
+  }
+
   handleSubmit(e){
       e.preventDefault();
      // const url = "http://localhost:5000/sent-data";
