@@ -4,14 +4,19 @@
   "description": "wish-list-mernstack app",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "client": "npm run start --prefix client",
+    "server": "nodemon app.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\""
   },
   "author": "amrit singh",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "concurrently": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mongoose": "^5.5.1"
+    "mongoose": "^5.5.1",
+    "nodemon": "^2.0.7"
   }
 }
