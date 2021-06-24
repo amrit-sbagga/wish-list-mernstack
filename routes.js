@@ -38,7 +38,7 @@ app.post('/sent',(req,res)=>{
 
 app.delete('/remove/:id',(req,res)=>{
 
-    Wish.findOneAndRemove({wish:req.params.id}).then(data=>{
+    Wish.findOneAndDelete({_id:req.params.id}).then(data=>{
         console.log("deleted")
         res.send(data)
     })
