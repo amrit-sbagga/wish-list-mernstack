@@ -10,12 +10,29 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
+    console.log("Home - componentDidMount()");
+    this.loadWishesData()
+  }
+
+  loadWishesData(){
+    //loading data from server <-> db
     fetch('/data').then(res => res.json())
     .then(res2 => {
-       // console.log(res2)
-      this.setState({mywishes : res2})
-    });
+      console.log(res2)
+      if(res2.length == 0){
+        console.log("here data is 0");
+        setTimeout(() => {
+          this.setState({resp : "No data available in db, add few using Add button."})
+          //this.setState({mywishes : []})
+        }, 3000)
 
+        this.setState({mywishes : []})
+       
+      }else{
+        this.setState({mywishes : res2})
+      }
+     
+    });
   }
 
   handleSubmit(e){
@@ -51,10 +68,28 @@ class Home extends React.Component {
 
   }
 
+  handleDelete(itemId){
+    console.log("delete for this itemId = ", itemId);
+    fetch('/remove/' + itemId, {
+      method : "delete"
+    })//.then(res => res.json())
+    .then(res2 => {
+      console.log("delete res2 = ", res2);
+    }).then(res => {
+      console.log("load wishes again after delete..!!");
+      this.loadWishesData()
+    })
+  }
+
   render(){
 
+    console.log("Home - render()");
+
     const wisheslist = this.state.mywishes.map(item => {
-        return <a className="collection-item" key={item._id}>{item.wish}</a>
+        return <a className="collection-item"
+           key={item._id}
+           onClick={()=>this.handleDelete(item._id)}
+           >{item.wish}</a>
     });
 
     return (
