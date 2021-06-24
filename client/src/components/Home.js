@@ -75,9 +75,16 @@ class Home extends React.Component {
     })//.then(res => res.json())
     .then(res2 => {
       console.log("delete res2 = ", res2);
+
+      const wishesAfterDelete = this.state.mywishes.filter(item => {
+        return item._id != itemId;
+      });
+      
+      this.setState({mywishes : wishesAfterDelete})
+
     }).then(res => {
-      console.log("load wishes again after delete..!!");
-      this.loadWishesData()
+      //console.log("load wishes again after delete..!!");
+      //this.loadWishesData()
     })
   }
 
