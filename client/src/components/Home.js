@@ -1,7 +1,11 @@
 //import logo from './logo.svg';
 import React from 'react';
 import {connect} from 'react-redux';
-import {handleInputAction, fetchWishAction} from '../myactions/action';
+import {
+  handleInputAction, 
+  fetchWishAction,
+  handleSubmitAction
+} from '../myactions/action';
 
 class Home extends React.Component {
 
@@ -12,7 +16,7 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-    console.log("Home - componentDidMount()");
+    console.log("Home - componentDidMount() props=", this.props);
     //this.loadWishesData()
     this.props.fetchWish();
   }
@@ -35,38 +39,6 @@ class Home extends React.Component {
    // });
   }
 
-  handleSubmit(e){
-      e.preventDefault();
-     // const url = "http://localhost:5000/sent-data";
-
-      var data = new URLSearchParams();
-      //console.log(e.target);
-      for(const pair of new FormData(e.target)){
-        //console.log("pair = ", pair);
-        data.append(pair[0], pair[1])
-      }
-
-      fetch('/sent', {
-        method : "post",
-        body : data
-      }).then(res => res.json())
-      .then(res2 => {
-        console.log(res2)
-        if(res2._id){
-           this.setState({resp : "Wish added successfully!!"})
-           
-           //initial array copy using spread operator
-           this.setState({
-             mywishes : [...this.state.mywishes, res2]
-           })
-           
-           setTimeout(() => {
-            this.setState({resp : ""})
-           }, 3000)
-        }
-      });
-
-  }
 
   handleDelete(itemId){
     console.log("delete for this itemId = ", itemId);
@@ -101,7 +73,7 @@ class Home extends React.Component {
 
     return (
       <div>
-        <form onSubmit={(e)=>this.handleSubmit(e)}>
+        <form onSubmit={(e)=>this.props.handleSubmit(e)}>
           <input type="text" 
                  name="item"
                  value={this.props.text} 
@@ -123,6 +95,7 @@ class Home extends React.Component {
   }
 }
 
+//reducer state is used as props in this component
 const mapStateToProps = (state) => {
   return {
     text : state.text,
@@ -134,7 +107,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleInput : (input) => {dispatch(handleInputAction(input))},
-    fetchWish : () => {dispatch(fetchWishAction())}
+    fetchWish : () => {dispatch(fetchWishAction())},
+    handleSubmit : (e) => {dispatch(handleSubmitAction(e))}
   }
 }
 

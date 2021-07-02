@@ -10,16 +10,23 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 text : action.payload
-            }
+            };
 
         case "GET_WISH":
             return {
                 ...state,
                 mywishes : action.payload
-            }
+            };
+
+        case "ADD_WISH":
+            return {
+                ...state,
+                mywishes : [ ...state.mywishes, action.payload ]
+            };
+
+        default: return state;
     }
     
-    return state;
 }
 
 export default reducer;
