@@ -4,15 +4,16 @@ import {connect} from 'react-redux';
 import {
   handleInputAction, 
   fetchWishAction,
-  handleSubmitAction
+  handleSubmitAction,
+  handleDeleteAction
 } from '../myactions/action';
 
 class Home extends React.Component {
 
   state = {
-    text : '',
+   // text : '',
     resp : '',
-    mywishes : [{_id : 1, wish:"loading"}]
+   // mywishes : [{_id : 1, wish:"loading"}]
   }
 
   componentDidMount(){
@@ -40,26 +41,6 @@ class Home extends React.Component {
   }
 
 
-  handleDelete(itemId){
-    console.log("delete for this itemId = ", itemId);
-    fetch('/remove/' + itemId, {
-      method : "delete"
-    })//.then(res => res.json())
-    .then(res2 => {
-      console.log("delete res2 = ", res2);
-
-      const wishesAfterDelete = this.state.mywishes.filter(item => {
-        return item._id !== itemId;
-      });
-      
-      this.setState({mywishes : wishesAfterDelete})
-
-    }).then(res => {
-      //console.log("load wishes again after delete..!!");
-      //this.loadWishesData()
-    })
-  }
-
   render(){
 
     console.log("Home - render()");
@@ -67,7 +48,7 @@ class Home extends React.Component {
     const wisheslist = this.props.mywishes.map(item => {
         return <a className="collection-item"
            key={item._id}
-           onClick={()=>this.handleDelete(item._id)}
+           onClick={()=>this.props.handleDelete(item._id)}
            >{item.wish}</a>
     });
 
@@ -108,7 +89,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleInput : (input) => {dispatch(handleInputAction(input))},
     fetchWish : () => {dispatch(fetchWishAction())},
-    handleSubmit : (e) => {dispatch(handleSubmitAction(e))}
+    handleSubmit : (e) => {dispatch(handleSubmitAction(e))},
+    handleDelete : (id) => { dispatch(handleDeleteAction(id)) }
   }
 }
 

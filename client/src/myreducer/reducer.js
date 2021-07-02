@@ -24,6 +24,16 @@ const reducer = (state=initialState, action) => {
                 mywishes : [ ...state.mywishes, action.payload ]
             };
 
+        case "DELETE_WISH":
+            const wishesAfterDelete = state.mywishes.filter(item => {
+                return item._id !== action.payload;
+            });
+
+            return {
+                ...state,
+                mywishes : wishesAfterDelete
+            };
+
         default: return state;
     }
     

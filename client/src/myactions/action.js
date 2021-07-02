@@ -66,3 +66,28 @@ export const handleSubmitAction = (e) => {
    
     }
 }
+
+export const handleDeleteAction = (itemId) => {
+    return (dispatch) => {
+        console.log("delete for this itemId = ", itemId);
+
+        fetch('/remove/' + itemId, {
+          method : "delete"
+        })//.then(res => res.json())
+        .then(res2 => {
+          console.log("delete res2 = ", res2);
+    
+        //   const wishesAfterDelete = this.state.mywishes.filter(item => {
+        //     return item._id !== itemId;
+        //   });
+        //   this.setState({mywishes : wishesAfterDelete})
+
+          dispatch({type:"DELETE_WISH", payload: itemId})
+    
+        })
+        //.then(res => {
+          //console.log("load wishes again after delete..!!");
+          //this.loadWishesData()
+        //})
+    }
+}
