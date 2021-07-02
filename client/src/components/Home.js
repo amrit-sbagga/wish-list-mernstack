@@ -1,5 +1,6 @@
 //import logo from './logo.svg';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {
   handleInputAction, 
@@ -14,6 +15,10 @@ class Home extends React.Component {
    // text : '',
     resp : '',
    // mywishes : [{_id : 1, wish:"loading"}]
+   users : [
+      { "id" : 20, "name" : "monty" },
+      { "id" : 21, "name" : "amrit" }
+    ]
   }
 
   componentDidMount(){
@@ -52,6 +57,10 @@ class Home extends React.Component {
            >{item.wish}</a>
     });
 
+    const myusers = this.state.users.map(item => {
+      return <Link to={"/" + item.id}><h3>{item.name}</h3></Link>
+    });
+
     return (
       <div>
         <form onSubmit={(e)=>this.props.handleSubmit(e)}>
@@ -69,6 +78,12 @@ class Home extends React.Component {
         <h4>{this.state.resp}</h4>
         <div className="collection">
           { wisheslist }
+        </div>
+        
+        <h4>============================</h4>
+        
+        <div>
+          {myusers}
         </div>
 
       </div>
